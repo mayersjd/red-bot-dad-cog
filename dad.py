@@ -859,6 +859,23 @@ class Dad(commands.Cog):
 
 
     @commands.guild_only()
+    @commands.command()
+    async def i_am_fair(self, ctx: commands.Context, number:int=None):
+        """Make yourself the fair child.
+
+        Parameters
+        ----------
+        number: int
+            Number of times to respond, default is the server setting.
+        """
+        # Make them the fair child
+        await ThatsFairJoke.assign_fair_child(
+                self, ctx.guild, ctx.author, number)
+        # Inform the user of what happen
+        await ctx.send("You are very fair.")
+
+
+    @commands.guild_only()
     @commands.admin()
     @commands.group()
     async def dad_settings(self, ctx:commands.Context) -> None:

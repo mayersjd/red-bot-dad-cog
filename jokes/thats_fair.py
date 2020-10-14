@@ -122,7 +122,7 @@ class ThatsFairJoke(Joke):
 
     @classmethod
     async def assign_fair_child(cls, bot:Red, guild: discord.Guild,
-            member:discord.Member) -> None:
+            member:discord.Member, number:int=None) -> None:
         """Save a member as "the fair_child" so that they can be
         further bothered.
 
@@ -134,6 +134,8 @@ class ThatsFairJoke(Joke):
             The guild to save "the fair child" of
         member: discord.Member
             The member to save as "the fair child"
+        number: int
+            Number of times to respond, default is the server setting.
         """
         # Set the member id number
         await cls.set_guild_option_value(bot, guild, 
@@ -144,8 +146,11 @@ class ThatsFairJoke(Joke):
                 cls._fair_child_mention_string_option_name,
                 f"{member.mention}")
         # Set the number of responses left
-        starting_responses = await cls.get_guild_option(bot, guild, 
-                    cls._starting_response_number_option_name)
+        if number is None:
+            starting_responses = await cls.get_guild_option(bot, guild, 
+                        cls._starting_response_number_option_name)
+        else:
+            starting_responses = number
         await cls.set_guild_option_value(bot, guild, 
                 cls._fair_child_responses_left_option_name, 
                 starting_responses)
